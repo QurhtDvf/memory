@@ -1,4 +1,4 @@
-# MemMachine × llama.cpp デモ（ローカルLLM・Docker不使用）
+# MemMachine × llama.cpp デモ（ローカルLLM使用＆Docker不使用）
 
 ## 概要
 
