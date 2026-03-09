@@ -50,6 +50,28 @@ llama-cpp-python サーバー × 2
 | LLM | Llama-3.2-1B-Instruct-Q4_K_M | 約 0.8 GB |
 | Embedding | nomic-embed-text-v1.5-Q4_K_M | 約 80 MB |
 
+## メモリの共有・分離の仕組み
+
+MemMachine はデフォルトでユーザー間のメモリを**共有しません**。メモリは以下の4つのキーの組み合わせで完全に分離されます。
+
+```python
+project.memory(
+    group_id="default",      # グループ（部署・チームなど）
+    agent_id="travel_agent", # エージェントの種類
+    user_id="alice",         # ユーザー識別子（異なれば別メモリ）
+    session_id="session_001" # セッション識別子
+)
+```
+
+| キー | 役割 |
+|------|------|
+| `user_id` | ユーザーごとの分離（最も重要） |
+| `agent_id` | 同じユーザーでも用途別に分離 |
+| `group_id` | 組織・チーム単位の分離 |
+| `session_id` | セッション単位の分離 |
+
+意図的に複数ユーザーでメモリを共有したい場合は、`user_id` を同じ値に固定します。たとえばチームの共有ナレッジベースとして使う場合は `user_id="team_shared"` のように設定します。
+
 ## 実装上の注意点
 
 ### ポート 8080 は使用しない
